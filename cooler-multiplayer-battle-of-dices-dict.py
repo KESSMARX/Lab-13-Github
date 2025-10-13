@@ -70,9 +70,7 @@ class battle_of_dices:
         print("This heated Battle of Dices is still going on! Who will win in the end?")
 
     rounds += 1
-       
-class Game:
-    
+           
 
 # List to store the dicts for each player
 players = []
