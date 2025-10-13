@@ -26,50 +26,6 @@ class Player:
         
     def __str__(self):
         return f"{self.name}, ({self.country}) - Wins: {self.wins}"
-
-class battle_of_dices:
-    def __init__(self, winning_score=3):
-        self.winning_score = winning_score
-        self.players = []
-        self.rounds = 0
-        self.gameover = False
-
-# Function to create a new player dict
-    def add_player(self, player):
-        self.players.append(player)
-        
-    def round(self):
-        """ Play a round of the game, rolling dice for each player and decide the winner(s) of the round. """
-        self.rounds += 1
-        print(f"\nRound {self.rounds}:")
-        rolls = []
-        for player in self.players:
-            roll = functions.rollD6() + functions.rollD6()
-            player.add_roll(roll)
-            rolls.append(roll)
-            print(f"Player {player.name} rolled: {roll}")
-
-        max_roll = max(rolls.values())
-
-        for each_player in players:
-          if (each_player["rolls"][-1] == max_roll):
-            each_player["wins"] += 1
-            print(f"Player {each_player['name']} won in round {rounds+1}")
-
-            winners.append(each_player['name'])
-        print(f"Winners of this round: {winners}")
-
-    # still in the gameover False
-
-        for each_player in players:
-            if (each_player['wins'] >= winning_score):
-             print(f"\n{each_player['name']} is the newest Battle of Dices Champion!")
-            gameover = True
-    
-    if gameover is False:
-        print("This heated Battle of Dices is still going on! Who will win in the end?")
-
-    rounds += 1
        
 
 # List to store the dicts for each player
@@ -83,6 +39,7 @@ for i in range(number_of_players):
 
     # create a new object
     new_player = Player(input("Name: "), input("Email: "),input("Country: "), 0, [])
+    players.append(new_player)
 
 # Repeats until the game is over. As many rounds as necessary
 while gameover is False:
@@ -98,11 +55,11 @@ while gameover is False:
         roll = functions.rollD6() + functions.rollD6()
 
         # player_rolls_history[i].append(roll)
-        each_player["rolls"].append(roll)
+        each_player.add_roll(roll)
 
         current_rolls.append(roll)
 
-        print(f"Player {each_player['name']} rolled: {roll}")
+        print(f"Player {each_player.name} rolled: {roll}")
 
     # Still in gameover is False
 
@@ -114,18 +71,18 @@ while gameover is False:
 
     # Search for all players who got the highest roll
     for each_player in players:
-        if (each_player["rolls"][-1] == max_roll):
-            each_player["wins"] += 1
-            print(f"Player {each_player['name']} won in round {rounds+1}")
+        if (each_player.rolls[-1] == max_roll):
+            each_player.wins += 1
+            print(f"Player {each_player.name} won in round {rounds+1}")
 
-            winners.append(each_player['name'])
+            winners.append(each_player.name)
     print(f"Winners of this round: {winners}")
 
     # still in the gameover False
 
     for each_player in players:
-        if (each_player['wins'] >= winning_score):
-            print(f"\n{each_player['name']} is the newest Battle of Dices Champion!")
+        if (each_player.wins >= winning_score):
+            print(f"\n{each_player.name} is the newest Battle of Dices Champion!")
             gameover = True
     
     if gameover is False:
@@ -144,10 +101,10 @@ with open(filename, "w") as file: # "w" = write mode
     # Saves each player information using python automatically concatenation of adjacent string
     for each_player in players:
         file.write(
-            f"Name: {each_player['name']}\n"
-            f"* E-mail: {each_player['email']}\n"
-            f"* Country: {each_player['country']}\n"
-            f"* Wins: {each_player['wins']}\n"
+            f"Name: {each_player.name}\n"
+            f"* E-mail: {each_player.email}\n"
+            f"* Country: {each_player.country}\n"
+            f"* Wins: {each_player.wins}\n"
         )
 
     # Round history
@@ -157,7 +114,7 @@ with open(filename, "w") as file: # "w" = write mode
 
         # Go through each player and build the string step by step
         for i, each_player in enumerate(players):
-            rolls_str += f"{each_player['name']} rolled {each_player['rolls'][r]}"
+            rolls_str += f"{each_player.name} rolled {each_player.rolls[r]}"
 
             # Add a comma and space unless it is the last player
             if i < len(players) -1:
