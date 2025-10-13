@@ -9,7 +9,7 @@ gameover = False
 winning_score = 3
 
 # Dictionary Template for storing player information
-class player_info:
+class Player:
     
     def __init__(self, name, email, country, wins, rolls):
         self.name = name
@@ -18,9 +18,15 @@ class player_info:
         self.wins = 0
         self.rolls = []
 
-    def roll(self):
-        roll = functions.rollD6() + functions.rollD6()
-
+    def add_roll(self, roll):
+        self.rolls.append(roll)
+        
+    def add_win(self):
+        self.wins += 1
+        
+    def __str__(self):
+        return f"{self.name}, ({self.country}) - Wins: {self.wins}"
+       
 
 # List to store the dicts for each player
 players = []
