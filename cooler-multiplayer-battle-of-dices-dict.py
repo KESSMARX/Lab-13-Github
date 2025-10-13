@@ -27,6 +27,8 @@ class Player:
     def __str__(self):
         return f"{self.name}, ({self.country}) - Wins: {self.wins}"
        
+class Game:
+    
 
 # List to store the dicts for each player
 players = []
