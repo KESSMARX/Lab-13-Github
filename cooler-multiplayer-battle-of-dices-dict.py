@@ -12,10 +12,10 @@ winning_score = 3
 class player_info:
     
     def __init__(self, name, email, country, wins, rolls):
-        self.name = name,
-        self.email = email,
-        self.country = country,
-        self.wins = 0,
+        self.name = name
+        self.email = email
+        self.country = country
+        self.wins = 0
         self.rolls = []
 
     def roll(self):
@@ -83,7 +83,7 @@ while gameover is False:
 
     rounds += 1
 
-    
+
 # --------------------------------------------------------------------------------------------------
 # Save the results to a file 
 filename = input("Enter the filename to save the results: ")
