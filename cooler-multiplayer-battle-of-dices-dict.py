@@ -18,6 +18,10 @@ class player_info:
         self.wins = 0,
         self.rolls = []
 
+    def roll(self):
+        roll = functions.rollD6() + functions.rollD6()
+
+
 # List to store the dicts for each player
 players = []
 
@@ -27,14 +31,8 @@ number_of_players = int(input("How many players?"))
 # For loop to obtain the player names
 for i in range(number_of_players):
 
-    # Make a deep copy of the template for this player
-    player = copy.deepcopy(player_info)
-
-    player ["name"] = input(f"What is the name of Player {i+1}?")
-    player ["email"] = input(f"What is the e-mail of Player {i+1}?")
-    player ["country"] = input(f"What is the country of Player {i+1}?")
-
-    players.append(player)
+    # create a new object
+    player_{i+1} = player_info(input("Name: "), input("Email: "),input("Country: "))
 
 # Repeats until the game is over. As many rounds as necessary
 while gameover is False:
@@ -85,6 +83,8 @@ while gameover is False:
 
     rounds += 1
 
+    
+# --------------------------------------------------------------------------------------------------
 # Save the results to a file 
 filename = input("Enter the filename to save the results: ")
 with open(filename, "w") as file: # "w" = write mode
