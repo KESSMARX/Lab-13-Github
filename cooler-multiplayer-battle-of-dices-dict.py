@@ -8,15 +8,15 @@ gameover = False
 # Nummber of wins needed to win the game
 winning_score = 3
 
-# Dictionary Template for storing player information
+# Class for storing player information
 class Player:
     
     def __init__(self, name, email, country, wins, rolls):
         self.name = name
         self.email = email
         self.country = country
-        self.wins = 0
-        self.rolls = []
+        self.wins = wins
+        self.rolls = rolls
 
     def add_roll(self, roll):
         self.rolls.append(roll)
@@ -38,7 +38,7 @@ number_of_players = int(input("How many players?"))
 for i in range(number_of_players):
 
     # create a new object
-    player_{i+1} = player_info(input("Name: "), input("Email: "),input("Country: "))
+    new_player = Player(input("Name: "), input("Email: "),input("Country: "), 0, [])
 
 # Repeats until the game is over. As many rounds as necessary
 while gameover is False:
