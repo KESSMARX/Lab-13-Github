@@ -36,4 +36,4 @@ class LogAnalyser:
 
 test1 = LogAnalyser()
 test1.rounds()
-print(test1.df.shape)
+print(test1.df)
