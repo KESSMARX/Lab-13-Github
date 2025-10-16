@@ -38,7 +38,9 @@ class LogAnalyser:
 
 
 mylog = LogAnalyser()
-mylog.DiceRead(r"C:\Users\framb\OneDrive\Área de Trabalho\python\a")
+# place to write the analyzed file
+url = input("Insert the name to the file you want to analyse: ")
+mylog.DiceRead(url)
 print(mylog.df)
 print(mylog.df.head(2))
 #print(mylog.df.info())
