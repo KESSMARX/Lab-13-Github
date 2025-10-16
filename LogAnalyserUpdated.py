@@ -13,7 +13,7 @@ class LogAnalyser:
         #skip lines to get to the "Round" word
         for i, line in enumerate(lines):
             if line.strip().startswith("Round"):
-                lines = lines[i:]  #maintain only lines after "Round"
+                lines = lines[i + 1:]  #maintain only lines after "Round"
                 break
         for line in lines:
             try:
@@ -42,7 +42,6 @@ mylog = LogAnalyser()
 url = input("Insert the name to the file you want to analyse: ")
 mylog.DiceRead(url)
 print(mylog.df)
-print(mylog.df.head(2))
-#print(mylog.df.info())
-#print(mylog.df.describe())
-#print(mylog.df.shape)
+print(mylog.df.info())
+print(mylog.df.describe())
+print(mylog.df.shape)
