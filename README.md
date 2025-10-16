@@ -29,10 +29,6 @@ class Player:
         self.rolls.append(roll)
         return roll
 
-    def __str__(self):
-        return f"{self.name} ({self.country}) - Wins: {self.wins}"
-
-
 # ---------------------------------------------------------------------------------------
 # Game Class
 class DiceGame:
