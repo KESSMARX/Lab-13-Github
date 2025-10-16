@@ -10,16 +10,16 @@ class LogAnalyser:
         with open(filename, "r") as f:
             lines = f.readlines()
 
-        # ✅ >>> ADICIONADO: pular linhas até achar a primeira que começa com "Round"
+        #skip lines to get to the "Round" word
         for i, line in enumerate(lines):
             if line.strip().startswith("Round"):
-                lines = lines[i:]  # mantém só as linhas a partir de "Round"
+                lines = lines[i:]  #maintain only lines after "Round"
                 break
         for line in lines:
             try:
                 round_part, rolls_part = line.strip().split(":", 1)
             except ValueError:
-                continue  # pula linhas que não têm o formato esperado
+                continue  # skip lines that doesn't have the expected format
 
             rolls_dict = {}
             for part in rolls_part.split(","):
@@ -33,7 +33,7 @@ class LogAnalyser:
             self.data.append(rolls_dict)
 
         self.df = pd.DataFrame(self.data, columns=self.player_names)
-        self.df.index += 1  # rounds começam em 1
+        self.df.index += 1  # rounds start in 1
         self.df.index.name = "Round"
 
 
