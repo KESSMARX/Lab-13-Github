@@ -1,169 +1,99 @@
-import copy
 import functions
 
-# Variables to keep track of the score
-rounds = 0
-gameover = False
-
-# Nummber of wins needed to win the game
-winning_score = 3
-
-# Class for storing player information
+# ---------------------------------------------------------------------------------------
+# Player Class
 class Player:
-    
-    def __init__(self, name, email, country, wins, rolls):
+    def __init__(self, name, email, country):
         self.name = name
         self.email = email
         self.country = country
-        self.wins = wins
-        self.rolls = rolls
+        self.wins = 0
+        self.rolls = []
 
-    def add_roll(self, roll):
+    def roll_dice(self):
+        """Roll 2 D6 dice, save the result, and return it."""
+        roll = functions.rollD6() + functions.rollD6()
         self.rolls.append(roll)
-        
-    def add_win(self):
-        self.wins += 1
-        
-    def __str__(self):
-        return f"{self.name}, ({self.country}) - Wins: {self.wins}"
+        return roll
 
-class battle_of_dices:
+# ---------------------------------------------------------------------------------------
+# Game Class
+class DiceGame:
     def __init__(self, winning_score=3):
-        self.winning_score = winning_score
         self.players = []
         self.rounds = 0
+        self.winning_score = winning_score
         self.gameover = False
 
-# Function to create a new player dict
-    def add_player(self, player):
-        self.players.append(player)
-        
-    def round(self):
-        """ Play a round of the game, rolling dice for each player and decide the winner(s) of the round. """
-        self.rounds += 1
-        print(f"\nRound {self.rounds}:")
-        rolls = []
-        for player in self.players:
-            roll = functions.rollD6() + functions.rollD6()
-            player.add_roll(roll)
-            rolls.append(roll)
-            print(f"Player {player.name} rolled: {roll}")
+    def setup_players(self):
+        try:
+            number_of_players = int(input("How many players? "))
+            for i in range(number_of_players):
+                name = input(f"What is the name of Player {i+1}? ")
+                email = input(f"What is the e-mail of Player {i+1}? ")
+                country = input(f"What is the country of Player {i+1}? ")
+                player = Player(name, email, country)
+                self.players.append(player)
+        except:
+            print ("ERROR! - Please type in a valid number - ERROR!")
 
-        max_roll = max(rolls.values())
+    def play(self):
+        while self.gameover is False:
+            self.rounds += 1
+            print(f"\n--- Round {self.rounds} ---")
 
-        for each_player in players:
-          if (each_player["rolls"][-1] == max_roll):
-            each_player["wins"] += 1
-            print(f"Player {each_player['name']} won in round {rounds+1}")
+            current_rolls = []
+            for player in self.players:
+                roll = player.roll_dice()
+                current_rolls.append(roll)
+                print(f"{player.name} rolled: {roll}")
 
-            winners.append(each_player['name'])
-        print(f"Winners of this round: {winners}")
+            max_roll = max(current_rolls)
+            if current_rolls[0] != current_rolls[1]:
+                winners = [p for p in self.players if p.rolls[-1] == max_roll]
 
-    # still in the gameover False
+                for winner in winners:
+                    winner.wins += 1
+                    print(f">>> {winner.name} won round {self.rounds}!")
 
-        for each_player in players:
-            if (each_player['wins'] >= winning_score):
-             print(f"\n{each_player['name']} is the newest Battle of Dices Champion!")
-            gameover = True
-    
-    if gameover is False:
-        print("This heated Battle of Dices is still going on! Who will win in the end?")
+            elif current_rolls[0] == current_rolls[1]:
+                print ("No winner this time!")
 
-    rounds += 1
-           
+            # Check if someone reached the winning score
+            for player in self.players:
+                if player.wins >= self.winning_score:
+                    print(f"\n🏆 {player.name} is the newest Battle of Dices Champion!")
+                    self.gameover = True
+                    break
 
-# List to store the dicts for each player
-players = []
+            if self.gameover is False:
+                print("The battle continues...")
 
-# Obtain the number of players 
-number_of_players = int(input("How many players?"))
+# ---------------------------------------------------------------------------------------
+    def save_results(self):
+        filename = input("\nEnter the filename to save the results: ")
+        with open(filename, "w") as file:
+            file.write("Player information:\n")
+            for p in self.players:
+                file.write(
+                    f"Name: {p.name}\n"
+                    f"* E-mail: {p.email}\n"
+                    f"* Country: {p.country}\n"
+                    f"* Wins: {p.wins}\n"
+                )
 
-# For loop to obtain the player names
-for i in range(number_of_players):
+            file.write("\nRound history:\n")
+            for r in range(self.rounds):
+                rolls_str = ", ".join(
+                    f"{p.name} rolled {p.rolls[r]}" for p in self.players
+                )
+                file.write(f"Round {r+1}: {rolls_str}\n")
 
-    # create a new object
-    new_player = Player(input("Name: "), input("Email: "),input("Country: "), 0, [])
+        print(f"\nGame over! Results saved successfully in '{filename}'.")
 
-# Repeats until the game is over. As many rounds as necessary
-while gameover is False:
-
-    print(f"Round {rounds+1}:")
-    # input ("\n Enter to continue...")
-
-    # Dice roll for each player in the current round
-    current_rolls = []
-
-    # We need to roll the dice for each player
-    for each_player in players:
-        roll = functions.rollD6() + functions.rollD6()
-
-        # player_rolls_history[i].append(roll)
-        each_player["rolls"].append(roll)
-
-        current_rolls.append(roll)
-
-        print(f"Player {each_player['name']} rolled: {roll}")
-
-    # Still in gameover is False
-
-    # Obtain the highest roll this round
-    max_roll = max(current_rolls)
-
-    # Find winners of the round
-    winners = []
-
-    # Search for all players who got the highest roll
-    for each_player in players:
-        if (each_player["rolls"][-1] == max_roll):
-            each_player["wins"] += 1
-            print(f"Player {each_player['name']} won in round {rounds+1}")
-
-            winners.append(each_player['name'])
-    print(f"Winners of this round: {winners}")
-
-    # still in the gameover False
-
-    for each_player in players:
-        if (each_player['wins'] >= winning_score):
-            print(f"\n{each_player['name']} is the newest Battle of Dices Champion!")
-            gameover = True
-    
-    if gameover is False:
-        print("This heated Battle of Dices is still going on! Who will win in the end?")
-
-    rounds += 1
-
-
-# --------------------------------------------------------------------------------------------------
-# Save the results to a file 
-filename = input("Enter the filename to save the results: ")
-with open(filename, "w") as file: # "w" = write mode
-    # Player information
-    file.write("Player information:\n")
-
-    # Saves each player information using python automatically concatenation of adjacent string
-    for each_player in players:
-        file.write(
-            f"Name: {each_player['name']}\n"
-            f"* E-mail: {each_player['email']}\n"
-            f"* Country: {each_player['country']}\n"
-            f"* Wins: {each_player['wins']}\n"
-        )
-
-    # Round history
-    for r in range(rounds):
-        # Start with empty text for this round
-        rolls_str = ""
-
-        # Go through each player and build the string step by step
-        for i, each_player in enumerate(players):
-            rolls_str += f"{each_player['name']} rolled {each_player['rolls'][r]}"
-
-            # Add a comma and space unless it is the last player
-            if i < len(players) -1:
-                rolls_str += ", "
-
-        # Now write the full round info to the file
-        file.write(f"Round {r+1}:\n {rolls_str}\n")
-
-    print("\nGame over! Results saved succesfully.")
+# ---------------------------------------------------------------------------------------
+# Main Program
+game = DiceGame(winning_score=3)
+game.setup_players()
+game.play()
+game.save_results()
