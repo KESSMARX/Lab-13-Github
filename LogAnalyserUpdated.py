@@ -42,6 +42,9 @@ mylog = LogAnalyser()
 url = input("Insert the name to the file you want to analyse: ")
 mylog.DiceRead(url)
 print(mylog.df)
-print(mylog.df.info())
-print(mylog.df.describe())
-print(mylog.df.shape)
+
+# This ones can be used to show different informations about the data
+# print(mylog.df.head(2))
+# print(mylog.df.info())
+# print(mylog.df.describe()) 
+# print(mylog.df.shape)
