@@ -62,12 +62,16 @@ class DiceGame:
                 print(f"{player.name} rolled: {roll}")
 
             max_roll = max(current_rolls)
-            winners = [p for p in self.players if p.rolls[-1] == max_roll]
+            if current_rolls[0] != current_rolls[1]:
+                winners = [p for p in self.players if p.rolls[-1] == max_roll]
 
-            for winner in winners:
-                winner.wins += 1
-                print(f">>> {winner.name} won round {self.rounds}!")
+                for winner in winners:
+                    winner.wins += 1
+                    print(f">>> {winner.name} won round {self.rounds}!")
 
+            elif current_rolls[0] == current_rolls[1]:
+                print ("No winner this time!")
+                
             # Check if someone reached the winning score
             for player in self.players:
                 if player.wins >= self.winning_score:
